@@ -1,0 +1,95 @@
+p.hero {
+  font-size: 1.5rem;
+  width: 75%;
+  margin-bottom: 7rem;
+}
+
+section.journal {
+  margin-bottom: 4.75rem;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--heading);
+    margin-bottom: 4rem;
+  }
+
+  article {
+    margin-bottom: 3rem;
+
+    a {
+      color: var(--heading);
+
+      transition: color 0.2s;
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+
+      &:hover {
+        text-decoration: none;
+        color: var(--accent);
+      }
+    }
+  }
+
+  summary {
+    margin-bottom: 0.75rem;
+  }
+
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    time {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}
+
+section.projects {
+  margin-bottom: 8.25rem;
+
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--heading);
+    margin-bottom: 4rem;
+  }
+
+  article {
+    margin-bottom: 3rem;
+
+    a {
+      color: var(--heading);
+
+      transition: color 0.2s;
+
+      h2 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+      }
+
+      &:hover {
+        text-decoration: none;
+        color: var(--accent);
+      }
+    }
+  }
+
+  summary {
+    margin-bottom: 0.75rem;
+  }
+
+  span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
