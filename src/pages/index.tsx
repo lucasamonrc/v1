@@ -1,6 +1,15 @@
+import Head from 'next/head';
 
 export default function Home() {
   return (
-    <h1>hello, world</h1>
+    <>
+      <Head>
+        <title>Home | Lucas A. Castro</title>
+      </Head>
+
+      <main>
+        <h1>Hello, world</h1>
+      </main>
+    </>
   );
 }
