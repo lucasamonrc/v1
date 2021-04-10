@@ -1,0 +1,36 @@
+.journal {
+  margin-bottom: 3rem;
+
+  a {
+    color: var(--heading);
+
+    transition: color 0.2s;
+
+    h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: var(--accent);
+    }
+  }
+  
+  summary {
+    margin-bottom: 0.75rem;
+  }
+  
+  div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  
+    time {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+  }
+}

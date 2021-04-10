@@ -2,6 +2,9 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { FiCalendar, FiClock, FiTool } from 'react-icons/fi';
 
+import JournalEntry from '../components/JournalEntry';
+import Project from '../components/Project';
+
 import common from '../styles/common.module.scss';
 import styles from '../styles/pages/home.module.scss';
 
@@ -20,35 +23,8 @@ export default function Home() {
         <section className={styles.journal}>
           <h1>Journal</h1>
 
-          <article>
-            <Link href="/"><a><h2>How to use React Hooks</h2></a></Link>
-            <summary>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.</summary>
-            <div>
-              <time>
-                <FiCalendar size={16}/>
-                Apr 9, 2021
-              </time>
-              <time>
-                <FiClock size={16}/>
-                4 min
-              </time>
-            </div>
-          </article>
-
-          <article>
-            <Link href="/"><a><h2>How to use React Hooks</h2></a></Link>
-            <summary>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.</summary>
-            <div>
-              <time>
-                <FiCalendar size={16}/>
-                Apr 9, 2021
-              </time>
-              <time>
-                <FiClock size={16}/>
-                4 min
-              </time>
-            </div>
-          </article>
+          <JournalEntry />
+          <JournalEntry />
 
           <Link href="/"><a>View all entries</a></Link>
         </section>
@@ -56,24 +32,9 @@ export default function Home() {
         <section className={styles.projects}>
           <h1>Projects</h1>
 
-          <article>
-            <Link href="/"><a><h2>How to use React Hooks</h2></a></Link>
-            <summary>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.</summary>
-            <span>
-              <FiTool size={16}/>
-              React, Sass, Node.js, MongoDB
-            </span>
-          </article>
-
-          <article>
-            <Link href="/"><a><h2>How to use React Hooks</h2></a></Link>
-            <summary>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.</summary>
-            <span>
-              <FiTool size={16}/>
-              React, Sass, Node.js, MongoDB
-            </span>
-          </article>
-
+          <Project />
+          <Project />
+          
           <Link href="/"><a>View all projects</a></Link>
         </section>
       </main>
