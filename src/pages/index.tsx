@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import { FiCalendar, FiClock, FiTool } from 'react-icons/fi';
 
 import JournalEntry from '../components/JournalEntry';
 import Project from '../components/Project';
@@ -23,8 +22,19 @@ export default function Home() {
         <section className={styles.journal}>
           <h1>Journal</h1>
 
-          <JournalEntry />
-          <JournalEntry />
+          <JournalEntry 
+            title='How to use React Hooks'
+            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
+            publicationDate='Apr 9, 2021'
+            readingTime='4'
+          />
+          
+          <JournalEntry 
+            title='How to use React Hooks'
+            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
+            publicationDate='Apr 9, 2021'
+            readingTime='4'
+          />
 
           <Link href="/"><a>View all entries</a></Link>
         </section>
@@ -32,8 +42,17 @@ export default function Home() {
         <section className={styles.projects}>
           <h1>Projects</h1>
 
-          <Project />
-          <Project />
+          <Project 
+            title='Willingly'
+            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
+            stack='Next.js, React, Sass, FaunaDB'
+          />
+
+          <Project 
+            title='Utah County Health Events'
+            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
+            stack='Nuxt, Vuetify, Node.js, OracleDB'
+          />
           
           <Link href="/"><a>View all projects</a></Link>
         </section>

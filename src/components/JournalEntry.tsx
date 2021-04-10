@@ -3,19 +3,27 @@ import { FiCalendar, FiClock } from 'react-icons/fi';
 
 import styles from '../styles/components/journalEntry.module.scss';
 
-export default function JournalEntry() {
+interface JournalEntryProps {
+  slug?: string;
+  title: string;
+  summary: string;
+  publicationDate: string;
+  readingTime: string;
+}
+
+export default function JournalEntry({ title, summary, publicationDate, readingTime }: JournalEntryProps) {
   return (
     <article className={styles.journal}>
-      <Link href="/"><a><h2>How to use React Hooks</h2></a></Link>
-      <summary>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.</summary>
+      <Link href="/"><a><h2>{title}</h2></a></Link>
+      <summary>{summary}</summary>
       <div>
         <time>
           <FiCalendar size={16}/>
-          Apr 9, 2021
+          {publicationDate}
         </time>
         <time>
           <FiClock size={16}/>
-          4 min
+          {readingTime} min
         </time>
       </div>
     </article>
