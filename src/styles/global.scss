@@ -9,7 +9,7 @@
   --background: #1E2228;
   --footer: #2D333B;
   --heading: #FFFFFF;
-  --body: #F0F5F9B3;
+  --body: #f0f5f9b3;
   --disabled: #F0F5F940;
 }
 
@@ -44,5 +44,18 @@ a {
 
   &:hover {
     text-decoration: underline;
+  }
+}
+
+footer {
+  padding: 1rem 0;
+  background: (var(--footer));
+  
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--disabled);
+    font-size: 0.75rem;
   }
 }
