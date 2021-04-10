@@ -1,0 +1,31 @@
+.header {
+  padding-top: 4rem;
+  margin-bottom: 7rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  nav {
+    a {
+      display: inline-block;
+      font-weight: 600;
+      text-decoration: none;
+      color: var(--heading);
+
+      transition: color 0.2s;
+
+      & + a {
+        margin-left: 1rem;
+      }
+
+      &:hover {
+        color: var(--accent);
+      }
+
+      &.active {
+        color: var(--accent);
+      }
+    }
+  }
+}
