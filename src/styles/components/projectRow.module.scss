@@ -1,0 +1,40 @@
+tr.project {
+  td {
+    padding-top: 1.5rem;
+  }
+
+  td.year {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  td.title {
+    a {
+      color: var(--heading);
+      font-weight: 600;
+
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--accent);
+        text-decoration: none;
+      }
+    }
+  }
+  
+  td.icons {
+    a {
+      color: var(--body);
+
+      transition: color 0.2s;
+
+      &:hover {
+        color: var(--accent);
+      }
+
+      & + a {
+        margin-left: 0.25rem;
+      }
+    }
+  }
+}

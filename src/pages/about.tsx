@@ -9,7 +9,7 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>Home | Lucas A. Castro</title>
+        <title>Journal | Lucas A. Castro</title>
       </Head>
 
       <main className={common.content}>
