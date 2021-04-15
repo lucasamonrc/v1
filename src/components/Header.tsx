@@ -16,11 +16,11 @@ export default function Header() {
           <ActiveLink activeClassName={styles.active} href="/about">
             <a>About</a>
           </ActiveLink>
-          <ActiveLink activeClassName={styles.active} href="/projects">
-            <a>Projects</a>
-          </ActiveLink>
           <ActiveLink activeClassName={styles.active} href="/journal">
             <a>Journal</a>
+          </ActiveLink>
+          <ActiveLink activeClassName={styles.active} href="/projects">
+            <a>Projects</a>
           </ActiveLink>
           <ActiveLink activeClassName={styles.active} href="https://rb.gy/evmrcf">
             <a>Resume</a>
