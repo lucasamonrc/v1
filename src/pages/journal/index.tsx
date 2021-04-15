@@ -1,9 +1,9 @@
 import Head from 'next/head';
 
-import JournalEntry from '../components/JournalEntry';
+import JournalEntry from '../../components/JournalEntry';
 
-import common from '../styles/common.module.scss';
-import styles from '../styles/pages/about.module.scss';
+import common from '../../styles/common.module.scss';
+import styles from '../../styles/pages/about.module.scss';
 
 export default function About() {
   return (
