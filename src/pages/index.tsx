@@ -1,15 +1,15 @@
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 
-import JournalEntry from '../components/JournalEntry';
+import { formatDate } from '../utils/formatDate';
 import Project from '../components/Project';
+import JournalEntry from '../components/JournalEntry';
 import { getPrismicClient } from '../services/prismic';
 
 import common from '../styles/common.module.scss';
 import styles from '../styles/pages/home.module.scss';
-import { formatDate } from '../utils/formatDate';
 
 interface Entry {
   uid: string;
@@ -59,7 +59,7 @@ export default function Home({ entries, projects }: HomeProps) {
           {entries.map(entry => (
             <JournalEntry
               key={entry.uid}
-              slug={entry.uid}
+              slug={`journal/${entry.uid}`}
               title={entry.data.title}
               summary={entry.data.summary}
               publicationDate={formatDate(new Date(entry.publicationDate))}
@@ -75,7 +75,7 @@ export default function Home({ entries, projects }: HomeProps) {
           {projects.map(project => (
             <Project
               key={project.uid}
-              slug={project.uid}
+              slug={`journal/${project.uid}`}
               title={project.data.title}
               summary={project.data.summary}
               stack={

@@ -60,7 +60,7 @@ export default function Journal({ entries, nextPage }:JournalProps ) {
           {journalEntries.map(entry => (
             <JournalEntry
               key={entry.uid}
-              slug={entry.uid}
+              slug={`journal/${entry.uid}`}
               title={entry.data.title}
               summary={entry.data.summary}
               publicationDate={formatDate(new Date(entry.publicationDate))}
