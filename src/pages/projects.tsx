@@ -2,11 +2,11 @@ import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 
-import ProjectRow from '../../components/ProjectRow';
-import { getPrismicClient } from '../../services/prismic';
+import ProjectRow from '../components/ProjectRow';
+import { getPrismicClient } from '../services/prismic';
 
-import common from '../../styles/common.module.scss';
-import styles from '../../styles/pages/projects.module.scss';
+import common from '../styles/common.module.scss';
+import styles from '../styles/pages/projects.module.scss';
 
 interface Project {
   title: string;
@@ -89,8 +89,6 @@ export const getStaticProps: GetStaticProps = async () => {
     year: project.data.year,
     links: project.data.links[0],
   }));
-
-  console.log(projects);
 
   return {
     props: {

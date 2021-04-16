@@ -1,7 +1,7 @@
 import Head from "next/head";
+import { GetStaticProps } from "next"
 import { RichText } from 'prismic-dom';
 import { FiCalendar } from "react-icons/fi";
-import { GetStaticProps } from "next"
 
 import { formatDate } from "../utils/formatDate";
 import { getPrismicClient } from "../services/prismic"
@@ -22,11 +22,11 @@ interface Entry {
   };
 }
 
-interface EntryProps {
+interface AboutProps {
   entry: Entry;
 }
 
-export default function Entry({ entry }: EntryProps) {
+export default function About({ entry }: AboutProps) {
   return (
     <>
       <Head>

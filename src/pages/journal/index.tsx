@@ -1,14 +1,14 @@
-import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import { useState } from 'react';
+import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 
+import { formatDate } from '../../utils/formatDate';
 import JournalEntry from '../../components/JournalEntry';
 import { getPrismicClient } from '../../services/prismic';
-import { formatDate } from '../../utils/formatDate';
 
 import common from '../../styles/common.module.scss';
 import styles from '../../styles/pages/about.module.scss';
-import { useState } from 'react';
 
 interface Entry {
   uid: string;

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { FiTool } from 'react-icons/fi';
 
 import styles from '../styles/components/project.module.scss';
@@ -21,4 +20,4 @@ export default function Project({ title, summary, stack, link }: ProjectProps) {
       </span>
     </article>
   );
-} 
+}

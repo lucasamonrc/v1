@@ -1,5 +1,6 @@
-import common from '../styles/common.module.scss';
 import { formatDate } from '../utils/formatDate';
+
+import common from '../styles/common.module.scss';
 
 export default function Footer() {
   return (

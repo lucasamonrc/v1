@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { GetStaticProps } from 'next';
 import Prismic from '@prismicio/client';
 
-import { formatDate } from '../utils/formatDate';
 import Project from '../components/Project';
+import { formatDate } from '../utils/formatDate';
 import JournalEntry from '../components/JournalEntry';
 import { getPrismicClient } from '../services/prismic';
 
