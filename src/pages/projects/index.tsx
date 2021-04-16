@@ -1,11 +1,30 @@
 import Head from 'next/head';
+import { GetStaticProps } from 'next';
+import Prismic from '@prismicio/client';
 
 import ProjectRow from '../../components/ProjectRow';
+import { getPrismicClient } from '../../services/prismic';
 
 import common from '../../styles/common.module.scss';
 import styles from '../../styles/pages/projects.module.scss';
 
-export default function Home() {
+interface Project {
+  title: string;
+  type: string;
+  year: string;
+  links: {
+    github: string;
+    live?: string | null;
+    figma?: string | null;
+    codepen?: string | null;
+  };
+}
+
+interface ProjectsProps {
+  projects: Project[];
+}
+
+export default function Projects({ projects }: ProjectsProps) {
   return (
     <>
       <Head>
@@ -26,135 +45,57 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              />
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  live: '/',
-                }}
-              />
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  live: '/',
-                  figma: '/'
-                }}
-              />
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                }}
-              />
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              />
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              /> 
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              /> 
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              /> 
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              /> 
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              /> 
-
-              <ProjectRow 
-                year="2020"
-                title="Open Nudge"
-                type="Web app"
-                links={{
-                  github: '/',
-                  figma: '/',
-                  live: '/',
-                  codepen: '/'
-                }}
-              />           
+              {projects.map((project, index) => (
+                <ProjectRow
+                  key={index} 
+                  year={project.year}
+                  title={project.title}
+                  type={project.type}
+                  links={{
+                    github: project.links.github,
+                    live: project.links.live,
+                    figma: project.links.figma,
+                    codepen: project.links.codepen,
+                  }}
+                />
+              ))}
             </tbody>
           </table>
         </section>
       </main>
     </>
   );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+
+  const response = await prismic.query(
+    [Prismic.Predicates.at('document.type', 'projects')],
+    { 
+      pageSize: 100, 
+      fetch: [
+        'projects.title',
+        'projects.links',
+        'projects.type',
+        'projects.year',
+      ], 
+    }
+  );
+
+  const projects = response.results.map(project => ({
+    title: project.data.title,
+    type: project.data.type,
+    year: project.data.year,
+    links: project.data.links[0],
+  }));
+
+  console.log(projects);
+
+  return {
+    props: {
+      projects,
+    },
+    revalidate: (24 * 3600) // seconds in a day
+  }
 }

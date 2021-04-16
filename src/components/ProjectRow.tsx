@@ -8,7 +8,7 @@ interface ProjectRowProps {
   title: string;
   type: string;
   links?: {
-    github?: string;
+    github: string;
     figma?: string;
     live?: string;
     codepen?: string;
@@ -28,9 +28,9 @@ export default function ProjectRow({
 }: ProjectRowProps) {
   return (
     <tr className={styles.project}>
-      <td className={styles.year}>2020</td>
-      <td className={styles.title}><Link href="/">Open Nudge</Link></td>
-      <td>Web App</td>
+      <td className={styles.year}>{year}</td>
+      <td className={styles.title}><Link href={links.live ?? links.github}>{title}</Link></td>
+      <td>{type}</td>
       <td className={styles.icons}>
         {
           links?.github && 

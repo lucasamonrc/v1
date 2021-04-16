@@ -33,6 +33,7 @@ interface PortfolioProject {
     title: string;
     summary: string;
     stack: TechStack[];
+    link: string;
   }
 }
 
@@ -75,7 +76,7 @@ export default function Home({ entries, projects }: HomeProps) {
           {projects.map(project => (
             <Project
               key={project.uid}
-              slug={`journal/${project.uid}`}
+              link={project.data.link}
               title={project.data.title}
               summary={project.data.summary}
               stack={
@@ -108,13 +109,20 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const projectsResponse = await prismic.query(
     [Prismic.Predicates.at('document.type', 'projects')],
-    { pageSize: 4, fetch: ['projects.title', 'projects.summary', 'projects.stack'] }
+    { pageSize: 4, fetch: ['projects.title', 'projects.summary', 'projects.stack', 'projects.links'] }
   )
 
   const projects = projectsResponse.results.map(project => ({
     uid: project.uid,
-    data: project.data,
+    data: {
+      link: project.data.links[0].github,
+      title: project.data.title,
+      summary: project.data.summary,
+      stack: project.data.stack,
+    },
   }));
+
+  console.log(projects);
 
   return {
     props: {
