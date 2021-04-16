@@ -11,8 +11,6 @@ import common from '../styles/common.module.scss';
 import styles from '../styles/pages/home.module.scss';
 import { formatDate } from '../utils/formatDate';
 
-
-
 interface Entry {
   uid: string;
   publicationDate: string;
@@ -122,6 +120,7 @@ export const getStaticProps: GetStaticProps = async () => {
     props: {
       entries,
       projects,
-    }
+    },
+    revalidate: (24 * 3600) // seconds in a day
   }
 }

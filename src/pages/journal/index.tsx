@@ -1,11 +1,52 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import Prismic from '@prismicio/client';
 
 import JournalEntry from '../../components/JournalEntry';
+import { getPrismicClient } from '../../services/prismic';
+import { formatDate } from '../../utils/formatDate';
 
 import common from '../../styles/common.module.scss';
 import styles from '../../styles/pages/about.module.scss';
+import { useState } from 'react';
 
-export default function About() {
+interface Entry {
+  uid: string;
+  publicationDate: string;
+  data: {
+    title: string;
+    summary: string;
+  }
+}
+
+interface JournalProps {
+  entries: Entry[],
+  nextPage: string;
+}
+
+export default function Journal({ entries, nextPage }:JournalProps ) {
+  const [journalEntries, setJournalEntries] = useState(entries);
+  const [nextPageUrl, setNextPageUrl] = useState(nextPage);
+
+  function handleLoadMore() {
+    async function loadNextPage() {
+      const response = await fetch(nextPageUrl);
+      const data = await response.json();
+
+      const entries = data.results.map(entry => ({
+        uid: entry.uid,
+        publicationDate: entry.first_publication_date,
+        data: entry.data,
+      }))
+      .filter(entry => entry.uid !== 'about');
+
+      setJournalEntries(oldState => [...oldState, ...entries]);
+      setNextPageUrl(data.next_page);
+    }
+
+    loadNextPage();
+  }
+
   return (
     <>
       <Head>
@@ -16,79 +57,44 @@ export default function About() {
         <section className={styles.journal}>
           <h1>Journal</h1>
 
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
+          {journalEntries.map(entry => (
+            <JournalEntry
+              key={entry.uid}
+              slug={entry.uid}
+              title={entry.data.title}
+              summary={entry.data.summary}
+              publicationDate={formatDate(new Date(entry.publicationDate))}
+            />
+          ))}
           
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-
-          <button type="button">Load more entries</button>
+          {!!nextPageUrl && <button type="button" onClick={handleLoadMore}>Load more entries</button>}
         </section>
       </main>
     </>
   );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+
+  const entriesResponse = await prismic.query(
+    [Prismic.Predicates.at('document.type', 'entries')],
+    { pageSize: 10, fetch: ['entries.title', 'entries.summary'] }
+  );
+
+  const entries = entriesResponse.results
+    .map(entry => ({
+      uid: entry.uid,
+      publicationDate: entry.first_publication_date,
+      data: entry.data,
+    }))
+    .filter(entry => entry.uid !== 'about');
+
+  return {
+    props: {
+      entries,
+      nextPage: entriesResponse.next_page,
+    },
+    revalidate: (24 * 3600) // seconds in a day
+  }
 }
