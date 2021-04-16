@@ -1,62 +1,82 @@
-import Head from 'next/head';
-import Link from 'next/link';
+import Head from "next/head";
+import { RichText } from 'prismic-dom';
+import { FiCalendar } from "react-icons/fi";
+import { GetStaticProps } from "next"
 
-import JournalEntry from '../components/JournalEntry';
-import Project from '../components/Project';
+import { formatDate } from "../utils/formatDate";
+import { getPrismicClient } from "../services/prismic"
 
 import common from '../styles/common.module.scss';
-import styles from '../styles/pages/home.module.scss';
+import styles from '../styles/pages/entry.module.scss';
 
-export default function Home() {
+interface Entry {
+  uid: string;
+  publicationDate: string | null;
+  data: {
+    title: string;
+    banner: string;
+    content: {
+      heading: string;
+      body: { text: string }[];
+    }[];
+  };
+}
+
+interface EntryProps {
+  entry: Entry;
+}
+
+export default function Entry({ entry }: EntryProps) {
   return (
     <>
       <Head>
-        <title>Home | Lucas A. Castro</title>
+        <title>{entry.data.title} | Lucas A. Castro</title>
       </Head>
 
-      <section className={common.content}>
-        <p className={styles.hero}>Hi, I’m Lucas. I help create better experiences in the web by writing quality software.</p>
-      </section>
+      <img className={styles.banner} src={entry.data.banner} alt=""/>
 
       <main className={common.content}>
-        <section className={styles.journal}>
-          <h1>Journal</h1>
+        <article className={styles.entry}>
+          <h1>{entry.data.title}</h1>
+          <time>
+            <FiCalendar size={16} />
+            {formatDate(new Date(entry.publicationDate))}
+          </time>
 
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-
-          <Link href="/journal"><a>View all entries</a></Link>
-        </section>
-
-        <section className={styles.projects}>
-          <h1>Projects</h1>
-
-          <Project 
-            title='Willingly'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            stack='Next.js, React, Sass, FaunaDB'
-          />
-
-          <Project 
-            title='Utah County Health Events'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            stack='Nuxt, Vuetify, Node.js, OracleDB'
-          />
-          
-          <Link href="/projects"><a>View all projects</a></Link>
-        </section>
+          {entry.data.content.map((content, index) => (
+            <section key={index}>
+              <h2>{content.heading}</h2>
+              <div dangerouslySetInnerHTML={{ __html: RichText.asHtml(content.body) }} />
+            </section>
+          ))}
+        </article>
       </main>
     </>
   );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+
+  const response = await prismic.getByUID('entries', 'about', {});
+
+  const content = response.data.content.map(content => ({
+    heading: content.heading,
+    body: content.body,
+  }));
+
+  const entry = {
+    publicationDate: response.first_publication_date,
+    data: {
+      title: response.data.title,
+      banner: response.data.banner.url,
+      content,
+    }
+  }
+
+  return {
+    props: {
+      entry,
+    },
+  }
 }
