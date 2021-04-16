@@ -11,10 +11,10 @@ interface JournalEntryProps {
   readingTime: string;
 }
 
-export default function JournalEntry({ title, summary, publicationDate, readingTime }: JournalEntryProps) {
+export default function JournalEntry({ title, summary, publicationDate, readingTime, slug = '' }: JournalEntryProps) {
   return (
     <article className={styles.journal}>
-      <Link href="/"><a><h2>{title}</h2></a></Link>
+      <Link href={slug}><a><h2>{title}</h2></a></Link>
       <summary>{summary}</summary>
       <div>
         <time>

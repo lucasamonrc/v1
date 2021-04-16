@@ -10,10 +10,10 @@ interface ProjectProps {
   stack: string;
 }
 
-export default function Project({ title, summary, stack }: ProjectProps) {
+export default function Project({ title, summary, stack, slug = '' }: ProjectProps) {
   return (
     <article className={styles.project}>
-      <Link href="/"><a><h2>{title}</h2></a></Link>
+      <Link href={slug}><a><h2>{title}</h2></a></Link>
       <summary>{summary}</summary>
       <span>
         <FiTool size={16}/>

@@ -1,13 +1,48 @@
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import Prismic from '@prismicio/client';
 
 import JournalEntry from '../components/JournalEntry';
 import Project from '../components/Project';
+import { getPrismicClient } from '../services/prismic';
 
 import common from '../styles/common.module.scss';
 import styles from '../styles/pages/home.module.scss';
 
-export default function Home() {
+
+
+interface Entry {
+  uid: string;
+  publicationDate: string;
+  data: {
+    title: string;
+    summary: string;
+  }
+}
+
+interface TechStack {
+  frontend: string;
+  style: string;
+  backend: string;
+  other: string;
+}
+
+interface PortfolioProject {
+  uid: string;
+  data: {
+    title: string;
+    summary: string;
+    stack: TechStack[];
+  }
+}
+
+interface HomeProps {
+  entries: Entry[],
+  projects: PortfolioProject[],
+}
+
+export default function Home({ entries, projects }: HomeProps) {
   return (
     <>
       <Head>
@@ -22,19 +57,16 @@ export default function Home() {
         <section className={styles.journal}>
           <h1>Journal</h1>
 
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
-          
-          <JournalEntry 
-            title='How to use React Hooks'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            publicationDate='Apr 9, 2021'
-            readingTime='4'
-          />
+          {entries.map(entry => (
+            <JournalEntry
+              key={entry.uid}
+              slug={entry.uid}
+              title={entry.data.title}
+              summary={entry.data.summary}
+              publicationDate={entry.publicationDate}
+              readingTime='4'
+            />
+          ))}
 
           <Link href="/journal"><a>View all entries</a></Link>
         </section>
@@ -42,21 +74,56 @@ export default function Home() {
         <section className={styles.projects}>
           <h1>Projects</h1>
 
-          <Project 
-            title='Willingly'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            stack='Next.js, React, Sass, FaunaDB'
-          />
-
-          <Project 
-            title='Utah County Health Events'
-            summary='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Urna sed sapien interdum sed.'
-            stack='Nuxt, Vuetify, Node.js, OracleDB'
-          />
-          
+          {projects.map(project => (
+            <Project
+              key={project.uid}
+              slug={project.uid}
+              title={project.data.title}
+              summary={project.data.summary}
+              stack={
+                `${project.data.stack[0].frontend}, ${project.data.stack[0].style}, ${project.data.stack[0].backend}, ${project.data.stack[0].other}`
+              }
+            />
+          ))}          
           <Link href="/projects"><a>View all projects</a></Link>
         </section>
       </main>
     </>
   );
+}
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+
+  const entriesResponse = await prismic.query(
+    [Prismic.Predicates.at('document.type', 'entries')],
+    { pageSize: 4, fetch: ['entries.title', 'entries.summary'] }
+  );
+
+  const entries = entriesResponse.results
+    .map(entry => ({
+      uid: entry.uid,
+      publicationDate: entry.first_publication_date,
+      data: entry.data,
+    }))
+    .filter(entry => entry.uid !== 'about');
+
+  const projectsResponse = await prismic.query(
+    [Prismic.Predicates.at('document.type', 'projects')],
+    { pageSize: 4, fetch: ['projects.title', 'projects.summary', 'projects.stack'] }
+  )
+
+  const projects = projectsResponse.results.map(project => ({
+    uid: project.uid,
+    data: project.data,
+  }));
+
+  console.log(entries);
+
+  return {
+    props: {
+      entries,
+      projects,
+    }
+  }
 }
