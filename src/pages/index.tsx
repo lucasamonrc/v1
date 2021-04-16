@@ -9,6 +9,7 @@ import { getPrismicClient } from '../services/prismic';
 
 import common from '../styles/common.module.scss';
 import styles from '../styles/pages/home.module.scss';
+import { formatDate } from '../utils/formatDate';
 
 
 
@@ -63,8 +64,7 @@ export default function Home({ entries, projects }: HomeProps) {
               slug={entry.uid}
               title={entry.data.title}
               summary={entry.data.summary}
-              publicationDate={entry.publicationDate}
-              readingTime='4'
+              publicationDate={formatDate(new Date(entry.publicationDate))}
             />
           ))}
 
@@ -117,8 +117,6 @@ export const getStaticProps: GetStaticProps = async () => {
     uid: project.uid,
     data: project.data,
   }));
-
-  console.log(entries);
 
   return {
     props: {

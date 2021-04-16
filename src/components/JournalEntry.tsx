@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { FiCalendar, FiClock } from 'react-icons/fi';
+import { FiCalendar } from 'react-icons/fi';
 
 import styles from '../styles/components/journalEntry.module.scss';
 
@@ -8,10 +8,9 @@ interface JournalEntryProps {
   title: string;
   summary: string;
   publicationDate: string;
-  readingTime: string;
 }
 
-export default function JournalEntry({ title, summary, publicationDate, readingTime, slug = '' }: JournalEntryProps) {
+export default function JournalEntry({ title, summary, publicationDate, slug = '' }: JournalEntryProps) {
   return (
     <article className={styles.journal}>
       <Link href={slug}><a><h2>{title}</h2></a></Link>
@@ -20,10 +19,6 @@ export default function JournalEntry({ title, summary, publicationDate, readingT
         <time>
           <FiCalendar size={16}/>
           {publicationDate}
-        </time>
-        <time>
-          <FiClock size={16}/>
-          {readingTime} min
         </time>
       </div>
     </article>
