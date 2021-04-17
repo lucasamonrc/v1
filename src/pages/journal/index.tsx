@@ -90,6 +90,13 @@ export const getStaticProps: GetStaticProps = async () => {
     }))
     .filter(entry => entry.uid !== 'about');
 
+    entries.sort((a, b) => {
+      const timeA = new Date(a.publicationDate).getTime();
+      const timeB = new Date(b.publicationDate).getTime();
+  
+      return timeB - timeA;
+    });
+
   return {
     props: {
       entries,

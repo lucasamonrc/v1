@@ -114,6 +114,7 @@ export const getStaticProps: GetStaticProps = async () => {
 
   const projects = projectsResponse.results.map(project => ({
     uid: project.uid,
+    date: project.first_publication_date,
     data: {
       link: project.data.links[0].github,
       title: project.data.title,
@@ -121,6 +122,13 @@ export const getStaticProps: GetStaticProps = async () => {
       stack: project.data.stack,
     },
   }));
+
+  entries.sort((a, b) => {
+    const timeA = new Date(a.publicationDate).getTime();
+    const timeB = new Date(b.publicationDate).getTime();
+
+    return timeB - timeA;
+  });
 
   return {
     props: {

@@ -9,7 +9,7 @@
   --background: #1E2228;
   --footer: #2D333B;
   --heading: #FFFFFF;
-  --body: #f0f5f9b3;
+  --body: #f0f5f9d8;
   --disabled: #F0F5F940;
 }
 
@@ -59,4 +59,18 @@ footer {
     color: var(--disabled);
     font-size: 0.75rem;
   }
+}
+
+*::-webkit-scrollbar {
+  width: 0.35rem;
+  height: 0.35rem;
+}
+ 
+*::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+ 
+*::-webkit-scrollbar-thumb {
+  background-color: var(--accent);
+  border-radius: 0.35rem;
 }
