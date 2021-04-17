@@ -40,10 +40,9 @@ export default function Entry({ entry }: EntryProps) {
         <title>{entry.data.title} | Lucas A. Castro</title>
       </Head>
 
-      <img className={styles.banner} src={entry.data.banner} alt=""/>
-
       <main className={common.content}>
         <article className={styles.entry}>
+          <img className={styles.banner} src={entry.data.banner} alt=""/>
           <h1>{entry.data.title}</h1>
           <time>
             <FiCalendar size={16} />

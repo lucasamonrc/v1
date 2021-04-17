@@ -8,7 +8,7 @@ import JournalEntry from '../../components/JournalEntry';
 import { getPrismicClient } from '../../services/prismic';
 
 import common from '../../styles/common.module.scss';
-import styles from '../../styles/pages/about.module.scss';
+import styles from '../../styles/pages/journal.module.scss';
 
 interface Entry {
   uid: string;

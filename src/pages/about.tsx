@@ -66,7 +66,7 @@ export const getStaticProps: GetStaticProps = async () => {
   }));
 
   const entry = {
-    publicationDate: response.first_publication_date,
+    publicationDate: response.last_publication_date,
     data: {
       title: response.data.title,
       banner: response.data.banner.url,
