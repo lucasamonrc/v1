@@ -1,5 +1,3 @@
-import { formatDate } from '../utils/formatDate';
-
 import common from '../styles/common.module.scss';
 
 export default function Footer() {
@@ -7,7 +5,7 @@ export default function Footer() {
     <footer>
       <div className={common.container}>
         <p>Lucas A. Castro</p>
-        <time>{formatDate(new Date())}</time>
+        <time>{new Date().getFullYear()}</time>
       </div>
     </footer>
   );
