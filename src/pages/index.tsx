@@ -122,8 +122,6 @@ export const getStaticProps: GetStaticProps = async () => {
     },
   }));
 
-  console.log(projects);
-
   return {
     props: {
       entries,
